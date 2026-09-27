@@ -1,0 +1,13 @@
+### Local secrets (applies in every folder)
+**/.env
+**/.env.*
+!**/.env.example
+**/.envrc
+**/secrets/
+**/.secrets/
+**/*credentials*.json
+**/*service-account*.json
+**/*.pem
+**/*.key
+**/*.p12
+**/*.pfx
