@@ -16,15 +16,24 @@ An LLM receives input and generates output. An agent is a program that connects 
 
 ## Example Workflow
 
-For a request such as "Create a todo app using HTML, CSS, and JavaScript":
+You can ask the agent for weather or for a small project in a language or framework. For example:
+
+```text
+What is the current weather in Pune?
+Create a React todo app with add, edit, complete, and delete features.
+Create a Python CLI calculator with addition, subtraction, multiplication, and division.
+Create a JavaScript quiz app with HTML and CSS.
+```
+
+For a project request such as "Create a React todo app":
 
 1. The CLI sends the message and available tool descriptions to Gemini.
-2. Gemini chooses `create_workspace_file` and supplies a relative path and file content for each file.
-3. Python validates the path, keeps it inside `workspace/`, creates needed parent folders, and writes the content. If replacing a file, it asks for approval.
-4. The tool result goes back to Gemini, which summarizes what happened.
-5. If a command is needed to run or check the project, Gemini can request `run_cmd`; the user reviews and approves it, and the command output is returned to Gemini.
+2. Gemini plans the project files and calls `create_workspace_file` with each relative path and its content. For example, a React project might need `todo-app/src/App.jsx` and `todo-app/package.json`.
+3. Python validates each path, keeps it inside `workspace/`, creates needed parent folders, and writes the content. If replacing an existing file, it asks for approval.
+4. The tool result goes back to Gemini. Gemini can create additional files or summarize the result.
+5. If a command is needed to install dependencies or run a check, Gemini can request `run_cmd`; you review and approve it, and its output is returned to Gemini.
 
-For a weather question, Gemini instead calls `get_weather` with the city name and uses the returned report in its response.
+For a weather question, Gemini calls `get_weather` with the city name and uses the returned report in its response. For a Python or JavaScript project, it follows the same file-writing workflow as React; the generated files and any setup commands depend on the requested project.
 
 ## Setup
 
@@ -46,7 +55,7 @@ Do not publish `.env` or share the API key. Start the CLI from the project folde
 python weather_agent.py
 ```
 
-Ask for weather or request a small app to be created under `workspace/`. The generated app files are not automatically tested or launched; inspect them and ask the agent to run an appropriate command if needed.
+Ask for weather or request a project in React, Python, JavaScript, or another language. Project files are created under `workspace/`. They are not automatically tested or launched; inspect them and approve an appropriate command if you want the agent to run one.
 
 ## Original Weather-Agent Walkthrough
 
